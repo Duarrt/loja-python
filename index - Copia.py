@@ -11,29 +11,35 @@ def obter_limite():
     print('Sua idade é de ' + str(idade) + ' anos. E você terá um limite de R${:.2f}!'.format(limite))
     return idade, limite
 
-def verificar_produto(idade, limite):
-    n = int(input('Quantidade de produtos que deseja cadastrar: '))
-    total = 0
-    limite_atual = limite
+idade, limite = obter_limite()
 
-    for x in range(n):
-        produto = input('Informe o nome do produto que deseja:')
-        valor = float(input('Informe o preço deste produto: R$'))
-        total += valor
-        limite_atual -= valor
-        print('Total: R${0:.2f}. Limite disponível: R${1:.2f}'.format(total, limite_atual))
-    
-    if total <= (0.6*limite_atual):
+def verificar_produto(idade, limite):
+    produto = input('Informe o nome do produto que deseja:')
+    valor = float(input('Informe o preço deste produto: R$'))
+    return limite_disp(idade, limite, valor)
+        
+
+def limite_disp(idade, limite, valor):
+    if valor <= (0.6*limite):
         print('Liberado!')
-    elif total > (0.6*limite_atual) and total < (0.9*limite_atual):
+    elif valor > (0.6*limite) and valor < (0.9*limite):
         print('Liberado ao parcelar em até 2 vezes.')
-    elif total > (0.9*limite_atual) and total < (1.0*limite_atual):
+    elif valor > (0.9*limite) and valor < (1.0*limite):
         print('Liberado ao parcelar em 3 ou mais vezes.')
     else:
         print('Bloqueado!')    
-    if total > 26 and total < idade:
-        desconto = total - (total*0.05)
+    if valor > 26 and valor < idade:
+        desconto = valor - (valor*0.05)
         print('Você terá um desconto de 5%, seu produto custará R$ {:.2f}'.format(desconto))
+    return limite-valor
+# verificar_produto(idade, limite)
 
-idade, limite = obter_limite()
-verificar_produto(idade, limite)
+n = int(input('Quantidade de produtos que deseja cadastrar: '))
+for x in range(n):
+    limite = verificar_produto(idade, limite)
+    
+#    prod = input('Entre com o item {}: '.format(x+1))
+#    valor = input('Entre com o valor do item {}'.format(x+1))
+#    total = total + valor
+#    limite_disponivel = limite - total
+#    print("")
